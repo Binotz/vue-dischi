@@ -6,7 +6,8 @@
     </header>
     <!-- Main -->
     <main>
-      <MainComponent />
+      <LoadingComponent v-if="albumsFromAPI === null"/>
+      <MainComponent :albums="albumsFromAPI" v-else/>
     </main>
   </div>
 </template>
@@ -16,12 +17,29 @@
 <script>
 import HeaderComponent from './components/HeaderComponent.vue';
 import MainComponent from './components/MainComponent.vue';
+import LoadingComponent from './components/LoadingComponent.vue';
+import axios from "axios"
 
 export default {
   name: 'App',
   components: {
     HeaderComponent,
-    MainComponent
+    MainComponent,
+    LoadingComponent,
+},
+  data(){
+    return{
+      albumsFromAPI: null
+    }
+  },
+  methods:{},
+  mounted(){
+    axios.get('https://flynn.boolean.careers/exercises/api/array/music')
+    .then( resp => {
+      setTimeout(()=>{
+        this.albumsFromAPI = resp.data.response;
+      },1000);
+    })
   }
 }
 </script>
@@ -30,13 +48,17 @@ export default {
 
 <style lang="scss">
 @import '@/assets/style/variables.scss';
+@import "~@fontsource/montserrat/index.css";
+
 *{
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
-#app {
+body{
   background-color: $primary-color;
-  height: 100vh;
+}
+#app {
+  font-family: "Montserrat",sans-serif;
 }
 </style>

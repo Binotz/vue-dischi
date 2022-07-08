@@ -1,18 +1,27 @@
 <template>
-  <section class="main-layout">
-    
+  <section class="container">
+    <CardsListComponent :albums="albums"/>
   </section>
 </template>
 
 <script>
+import CardsListComponent from './CardsListComponent.vue'
+
 export default {
-    name: "MainComponent"
+    name: "MainComponent",
+    components:{
+        CardsListComponent
+    },  
+    props:{
+        albums: Array
+    }
 }
 </script>
 
 <style lang="scss" scoped>
-    .main-layout{
+    .container{
         padding: 4rem;
-        
+        width: 70%;
+        margin: 0 auto;
     }
 </style>
