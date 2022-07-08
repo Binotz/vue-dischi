@@ -25,14 +25,4 @@ h2{
     font-weight: bold;
 }
 
-.loading-container {
-    height: 100vh;
-    width: 100vw;
-    background-color: rgb(231, 212, 240);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
-
 </style>
