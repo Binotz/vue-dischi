@@ -1,7 +1,9 @@
 <template>
   <section class="container">
-    <SearchComponent :albums="albums" 
-    @genreFilterEmit="filterAlbums"/>
+    <SearchComponent :albums="filteredAlbums" 
+    @genreFilterEmit="filterAlbums"
+    @authorFilterEmit="filterAuthor"
+    />
     <CardsListComponent :albums="filteredAlbums"/>
   </section>
 </template>
@@ -21,21 +23,33 @@ export default {
     },
     data(){
         return {
-            genreSelected: 'All'
+            genreSelected: 'All',
+            authorSelected: 'All'
         }
     },
     methods:{
         filterAlbums: function(genre){
-            this.genreSelected = genre.charAt(0).toUpperCase() + genre.slice(1);
-        }        
+            this.genreSelected = genre;
+        },    
+        filterAuthor: function(author){
+            this.authorSelected = author;
+        }
     },
     computed:{
         filteredAlbums: function(){
-            if(this.genreSelected === 'All'){
+            if(this.genreSelected === 'All' && this.authorSelected === 'All'){
                 return this.albums;
-            }
+            } 
             return this.albums.filter((album)=>{
-                return album.genre === this.genreSelected;
+                if(this.genreSelected !== 'All' && this.authorSelected === 'All'){
+                    return album.genre === this.genreSelected;
+                }
+                if(this.authorSelected !== 'All' && this.genreSelected === 'All'){
+                    return album.author === this.authorSelected;
+                }
+                if(this.genreSelected !== 'All' && this.authorSelected !== 'All'){
+                    return album.genre === this.genreSelected && album.author === this.authorSelected;
+                }
             });
         }
     }
