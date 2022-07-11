@@ -1,19 +1,43 @@
 <template>
   <section class="container">
-    <CardsListComponent :albums="albums"/>
+    <SearchComponent :albums="albums" 
+    @genreFilterEmit="filterAlbums"/>
+    <CardsListComponent :albums="filteredAlbums"/>
   </section>
 </template>
 
 <script>
 import CardsListComponent from './CardsListComponent.vue'
+import SearchComponent from './SearchComponent.vue'
 
 export default {
     name: "MainComponent",
     components:{
-        CardsListComponent
+        CardsListComponent,
+        SearchComponent
     },  
     props:{
-        albums: Array
+        albums: Array,
+    },
+    data(){
+        return {
+            genreSelected: 'All'
+        }
+    },
+    methods:{
+        filterAlbums: function(genre){
+            this.genreSelected = genre.charAt(0).toUpperCase() + genre.slice(1);
+        }        
+    },
+    computed:{
+        filteredAlbums: function(){
+            if(this.genreSelected === 'All'){
+                return this.albums;
+            }
+            return this.albums.filter((album)=>{
+                return album.genre === this.genreSelected;
+            });
+        }
     }
 }
 </script>

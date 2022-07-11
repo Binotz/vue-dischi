@@ -39,7 +39,7 @@ export default {
       setTimeout(()=>{
         this.albumsFromAPI = resp.data.response;
       },1000);
-    })
+    });
   }
 }
 </script>
